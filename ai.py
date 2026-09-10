@@ -15,7 +15,7 @@ try:
 except ImportError:
     GENAI_AVAILABLE = False
 
-MODEL_ID = "gemini-2.5-flash"
+MODEL_ID = "models/gemini-3.6-flash"
 
 
 # ---------------------------------------------------------------------------
@@ -23,12 +23,14 @@ MODEL_ID = "gemini-2.5-flash"
 # ---------------------------------------------------------------------------
 
 def _get_api_key() -> Optional[str]:
+    # Try st.secrets first (works when running via `streamlit run`)
     try:
-        key = st.secrets.get("GEMINI_API_KEY")
+        key = st.secrets["GEMINI_API_KEY"]
         if key:
             return key
     except Exception:
         pass
+    # Fallback: environment variable
     return os.environ.get("GEMINI_API_KEY")
 
 
